@@ -92,4 +92,8 @@ You should now have a decent-looking site! If its look doesn't approximately mat
 
 ### Part 5 - Stretch!
 
-Stretch goals coming soon!
+There are many directions you could take this one:
+
+* Add a second API that combines with your current one. Ask which joke is funnier between two joke-telling APIs, or which is cuter between a dog and a cat, or who would win in a fight between random Jedi Knights and Pokemon. Or take it other directions... pick a random pokemon and then a random cocktail and try combining their names to make a pokemon-themed drink. Or something else! This is one way to make a fun app, combining datasets in original ways.
+* Store the responses you got in an array as you go. This will allow the user to click random a bunch of times and then go back through the history. Whenever you add a new random thing to the array, change a global `i` variable to keep track of which is your latest item. What you'll want to do is add a previous button that, when clicked, decrements that `i` and displays the thing at THAT index in the array. You could also add a forward button that will do the same thing, but increments the `i`. This all will give the user a much more powerful ability to flip through all the items they've randomly gotten so far!
+* If you did the previous Stretch Goal, the next step would be to use [Bootstrap's Carousel component](https://getbootstrap.com/docs/5.0/getting-started/introduction/#js) to display the items you've got already. It's going to take a fair amount of configuration, including [adding their JavaScript](https://getbootstrap.com/docs/5.0/getting-started/introduction/#js) to your page, but the result is a very nice-looking site!
