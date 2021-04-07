@@ -40,12 +40,12 @@ In this part, you'll allow a user to enter the name of a city into a text input,
 then press a button to submit. Your application will check the weather in that city,
 then display the results to the user.
 
-## 2A) Update your HTML
+#### 2A) Update your HTML
 
 Start off by creating a text input and a submit button in the weather app section of your
 HTML. Make these look nice with Bootstrap (https://getbootstrap.com/docs/5.0/forms/overview/).
 
-## 2B) Handling Button Click
+#### 2B) Handling Button Click
 
 Now, when the submit button is pressed. Take the text entered into the input box
 and make an API request to check the weather in that city.
