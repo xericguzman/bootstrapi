@@ -41,7 +41,7 @@ fetch(URL)
 * In your event listener function...
   * Query the text input
   * Get the `.value` of the text input
-  * Create the API request URL. It will be the following with `{city}` replaced with your text input's value: `https://goweather.herokuapp.com/weather/{city}`
+  * Create a variable that holds the URL to which you'll make your GET request. It will look like this `https://goweather.herokuapp.com/weather/{city}` but with `{city}` replaced with the value of the text input
   * Make a GET request to that URL with `fetch` (syntax seen above)
   * When you handle the API response object
     * Individually query your `div`s for temperature, wind, and description
