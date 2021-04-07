@@ -1,99 +1,85 @@
-# BootstAPI
+# BootstrAPI
 
-### Introduction
+In this project, we'll be creating two sub-projects that both use Bootstrap and API requests. The first is a random dog generator and the second is weather displaying application.
 
-We'll be exploring making API requests and displaying the results in Bootstrap components. When you're done, you'll be able to make a page not unlike [this random dog generator](bootstrapi-solution.surge.sh).
+## Part 1 - Random Dog Generator
 
+In the first part of this assignment, you'll add a button to your webpage that
+when clicked, will cause a random dog image to display. You'll use the Dog API (https://dog.ceo/dog-api/) to get a random dog image URL.
 
-### Part 1 - Pick an API
+#### 1A) Update your HTML
 
-Pick one of these APIs to play with!
+Lets start by creating a `<button>` and an empty `<img>` in the HTML. 
 
-**Be warned that some APIs in the last two lists are difficult to use.** We can always try to help you navigate them!
+Make the button look like [a nice Bootstrap button](https://getbootstrap.com/docs/5.0/components/buttons/). 
 
-* [The Random Dog API](https://dog.ceo/dog-api/)
-* [The Dad Jokes API](https://icanhazdadjoke.com/api)
-* [TheCocktailDB](https://www.thecocktaildb.com/api.php?ref=apilist.fun)
-* [Fancy Tacos](https://github.com/evz/tacofancy-api)
-* [Chuck Norris Jokes](https://api.chucknorris.io/)
-* [Random Kanye West Quotes](https://kanye.rest/)
-* [The Bored API](https://www.boredapi.com/)
-* [The Punk API (Craft Beers)](https://punkapi.com/documentation/v2)
-* [Something from this crazy list of APIs](https://www.programmableweb.com/category/all/apis)
+Additionally, put both your button and image in a Bootstrap "card"
+component. Read the Bootstarp documentation to figure out how to do this: https://getbootstrap.com/docs/5.0/components/card/
 
+#### 1B) Handle Button Click
 
-### Part 2 - XHR
+Now, lets make it so that when the button is clicked, a random dog image is displayed.
 
-XML HTTP Requests, or XHRs, are a callback-based method built into browsers for making network requests to [APIs](https://www.howtogeek.com/343877/what-is-an-api/). They allow us to access data on a server, whether it's our own server or a public-facing server for another app. Our app might want to access its users' information to display to them, or we might want to tie into Google's Maps API to show them where something is. Either way, XHRs will allow you to access data that's not immediately a part of your app.
-
-Here is a breakdown of the steps to making a simple request using XHR:
-
-* Create a new XMLHttpRequest object. The syntax for this is a bit new, but it's basically a factory function that returns the object we want with all its many methods and properties. Note the weird case inconsistencies with the acronyms! (Pick a LANE, coders!)
-
-``` javascript
-const xhr = new XMLHttpRequest();
+To get a random dog image URL, we'll make a GET request to this url: `https://dog.ceo/api/breeds/image/random`. The Dog API will then send us a response which will be
+an object formatted like:
+```
+{ 
+  "message": "https:\/\/images.dog.ceo\/breeds\/otterhound\/n02091635_1860.jpg",
+  "status": "success"
+}
 ```
 
-* Add an event listener to the `xhr` object you got. We'll listen for a `loadend` event, and then take the JSON the server sends us (on the property `responseText` on our `xhr`) convert it to a JS object and, for now, print out that object to our console. Note how similar this is to DOM event listeners!
+We can see that the message field contains the random dog image! Grab that URL, then set
+your image's source to be that URL.
 
-``` javascript
-xhr.addEventListener('loadend', () => {
-    const data = JSON.parse(xhr.responseText);
-    console.log(data);
-})
+Everytime you click the button, you should see a new random dog image appear!
+
+## Part 2 - Weather App
+
+In this part, you'll allow a user to enter the name of a city into a text input,
+then press a button to submit. Your application will check the weather in that city,
+then display the results to the user.
+
+## 2A) Update your HTML
+
+Start off by creating a text input and a submit button in the weather app section of your
+HTML. Make these look nice with Bootstrap (https://getbootstrap.com/docs/5.0/forms/overview/).
+
+## 2B) Handling Button Click
+
+Now, when the submit button is pressed. Take the text entered into the input box
+and make an API request to check the weather in that city.
+
+This can be done using this weather API: https://github.com/robertoduessmann/weather-api
+
+To check the weather in a city, make a GET request to `https://goweather.herokuapp.com/weather/{city}`,
+substituting `{city}` with the name of the city you want to check the weather in.
+
+You'll receive a response object that looks like:
+```
+{
+    "temperature": "17 °C",
+    "wind": "9 km/h",
+    "description": "Partly cloudy",
+    "forecast": [
+        { "day": "1", "temperature": "19 °C", "wind": "14 km/h" },
+        { "day": "2", "temperature": "12 °C", "wind": " km/h"   },
+        { "day": "3", "temperature": "7 °C",  "wind": " km/h"   }
+    ]
+}
 ```
 
-* So all we did there is set things up to deal with a response, but we haven't actually made a request yet! We don't want to do that in the global scope for a number of reasons (including that we don't want it to make that request every time we make a change in our code and LiveServer reloads the page, running all global code!), so query the button (actually a link; check the HTML!) and add a click event listener to it.
+Take the temperature, wind, and description from this response and display them
+somewhere on the page. You'll want to create new HTML elements in `index.html` that
+will store this information.
 
-``` javascript
-// Code not pictured; you've got this one!
-```
+## Stretch goals
 
-* So when they click the button, THAT'S when we want to send out our request. In your button's click event listener, use the `xhr` `open` method to set up (but not send!) a `GET` request to the url of the API you chose. The first argument to `open` is the type of request, and the second is the url.
+* Create a third sub-project with an API of your choosing. A large list of public
+APIs is available here: https://github.com/public-apis/public-apis I'd recommend
+using one that requires no authentication. Be warned: many of them are quite complicated
+to use.
 
-``` javascript
-xhr.open('GET', 'https://someurlbutnothisone.com/random')
-```
-
-* It's PROBABLY a good idea to specify you want JSON, although many APIs default to it or in fact ONLY use JSON. We do that by specifying in the "header" of our network request that we'll be accepting JSON. **NOTE:** if an API says you need to add a header for something else as well, this is the method to use!
-
-``` javascript
-xhr.setRequestHeader('Accept', 'application/json');
-```
-
-* Finally, we're ready to send that request. The `send` method on the `xhr` object can also take an argument if we need to actually send additional information (as with a `POST` request for example; what are we posting?), but with a `GET` request, we can simply hit the send button.
-
-``` javascript
-xhr.send();
-```
-
-* Check your console. You should have an object printed out! Now it's time to DO something with that object. Find some relevant info in your object and either put it in the `p` tag (if it's text) or the `img` tag (if it's a picture). Check your html!
-
-
-### Part 3 - Basic Interface
-
-You may have noticed that our interface is very very basic and also about dogs. Let's work on the dog part first. Unless your API actually WAS about dogs (the best ones are!), change the heading and subheading and button text and anything else to match your actual app!
-
-
-### Part 4 - Bootstrap Stylin'
-
-Okay, now that your content is specific to your app, let's add some Bootstrap and make it look... pretty good?
-
-* Go check out [the docs for Bootstrap's card component](https://getbootstrap.com/docs/5.0/components/card/). We'll wait!
-* Now let's add some of those sweet card classes to the right elements and watch our site get way better! Start with the `.main` `section`. Give it the additional class `card`, and check out the differnce.
-* Next: give the `.button` element the additional classes `btn` and `btn-primary`.
-* Give the `h5` element the class `card-title`.
-* Give the `h6` element the clas `card-subtitle` and, optionally, `text-muted` (try it and see if you like it!)
-* Give the `p` element the additional class `card-text`.
-* Finally, give the `img` (if you need one) the class of `card-img-bottom`.
-
-You should now have a decent-looking site! If its look doesn't approximately match the one linked in the Introduction, you may have missed a class or two. Check over your code and look at the examples in the docs!
-
-
-### Part 5 - Stretch!
-
-There are many directions you could take this one:
-
-* Add a second API that combines with your current one. Ask which joke is funnier between two joke-telling APIs, or which is cuter between a dog and a cat, or who would win in a fight between random Jedi Knights and Pokemon. Or take it other directions... pick a random pokemon and then a random cocktail and try combining their names to make a pokemon-themed drink. Or something else! This is one way to make a fun app, combining datasets in original ways.
-* Store the responses you got in an array as you go. This will allow the user to click random a bunch of times and then go back through the history. Whenever you add a new random thing to the array, change a global `i` variable to keep track of which is your latest item. What you'll want to do is add a previous button that, when clicked, decrements that `i` and displays the thing at THAT index in the array. You could also add a forward button that will do the same thing, but increments the `i`. This all will give the user a much more powerful ability to flip through all the items they've randomly gotten so far!
-* If you did the previous Stretch Goal, the next step would be to use [Bootstrap's Carousel component](https://getbootstrap.com/docs/5.0/getting-started/introduction/#js) to display the items you've got already. It's going to take a fair amount of configuration, including [adding their JavaScript](https://getbootstrap.com/docs/5.0/getting-started/introduction/#js) to your page, but the result is a very nice-looking site!
+* For each project, put the content returned from the API in a Bootstrap carousel.
+Everytime the user makes a new API request, add a new slide to the carousel. The user
+should be able to look through the carousel to see the results of all their requests.
